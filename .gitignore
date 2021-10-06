@@ -1,0 +1,10 @@
+hardhat.config.js
+node_modules
+contracts/artifacts
+artifacts
+cache
+secrets.json
+mergedSources
+.deps
+build
+.firebase
