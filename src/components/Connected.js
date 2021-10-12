@@ -86,7 +86,6 @@ export function Connected({account}){
     )
 }
 
-// export default function Skin({account, index, managerAddress}){
 function skins(skinBalance, account, managerAddress){
     let arr =[]
     if(skinBalance && account && managerAddress){
