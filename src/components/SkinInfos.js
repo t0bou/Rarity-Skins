@@ -46,7 +46,6 @@ export default function SkinInfos({id, managerAddress}){
                 </div>
                 &nbsp;have this</li>)
         })
-        rarityScore = Math.round(rarityScore * 10)/10
     }
 
     return(
@@ -72,9 +71,9 @@ export default function SkinInfos({id, managerAddress}){
                         {attributesInfos}
                         </ul>
                         Rarity Score : <div style={{display: "inline-block", color:"#fff200", fontWeight: "bolder"}}>
-                            {rarityScore}
+                            {Math.round(rarityScore *10)/10}
                         </div> - Rank <div style={{display: "inline-block", color:"#fff200", fontWeight: "bolder"}}>
-                            {ranksJson.default.indexOf(rarityScore) + 1} 
+                            {ranksJson.default.indexOf(parseInt(id)) + 1} 
                         </div> /{ranksJson.default.length}
                     </>}
                 </Card.Text></>}
