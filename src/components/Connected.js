@@ -9,6 +9,7 @@ import Loading from "./Loading"
 import { useQuery, gql } from "@apollo/client"
 import Summoner from "./Summoner"
 import SkinInfos from "./SkinInfos"
+import Assigner from "./Assigner"
 
 export function Connected({account}){
     const skinsABI = JSON.stringify(summonerSkinsJson.abi)
@@ -39,6 +40,8 @@ export function Connected({account}){
             <Form.Control size="sm" type="number" placeholder="skin id" value={skinId !== 0 ? skinId : undefined} onChange={e => setSkinId(e.target.value)}/>
         </div><br/><br/>
         {skinId > 0 && skinId <= 5000 && managerAddress && <SkinInfos id={skinId} managerAddress={managerAddress}/>}
+        <br/><br/>
+        {managerAddress && <Assigner managerAddress={managerAddress} />}
         <br/><br/>
         {skins(skinBalance, account, managerAddress)}
         {skinBalance && skinBalance === 0 && <>You have no skin :( Try to mint some !<br/></>}
