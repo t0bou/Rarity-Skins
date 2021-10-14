@@ -28,7 +28,7 @@ function main(){
         }
         score = 0
     })
-    scoreRanking = scoreRanking.sort((a,b) => a - b)
+    scoreRanking = scoreRanking.sort((a,b) => b - a)
     fs.writeFileSync("scoreRanks.json",JSON.stringify(scoreRanking),'utf-8')
     console.log(scoreRanking[0], scoreRanking[1], scoreRanking[scoreRanking.length - 1])
 }
