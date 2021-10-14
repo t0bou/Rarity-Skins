@@ -1,13 +1,13 @@
-import { useContractCall, useContractFunction } from "@usedapp/core"
+import { useContractCall } from "@usedapp/core"
 import { ethers } from "ethers"
 import * as addresses from "../addresses.json"
 import * as summonerSkinsJson from "../artifacts/contracts/SummonerSkins.sol/SummonerSkins.json"
 import * as managerJson from "../artifacts/contracts/RaritySkinManager.sol/RaritySkinManager.json"
 import Loading from "./Loading"
-import { Card, Button, Stack, Form } from "react-bootstrap"
-import { useState } from "react"
+import { Card } from "react-bootstrap"
 import LoadingGif from "../dependencies/loading.gif"
 import * as statsJson from "../rare_skins_stats.json"
+import * as ranksJson from "../scoreRanks.json"
 
 export default function SkinInfos({id, managerAddress}){
     const skinsABI = JSON.stringify(summonerSkinsJson.abi)
@@ -46,6 +46,7 @@ export default function SkinInfos({id, managerAddress}){
                 </div>
                 &nbsp;have this</li>)
         })
+        rarityScore = Math.round(rarityScore * 10)/10
     }
 
     return(
@@ -71,8 +72,10 @@ export default function SkinInfos({id, managerAddress}){
                         {attributesInfos}
                         </ul>
                         Rarity Score : <div style={{display: "inline-block", color:"#fff200", fontWeight: "bolder"}}>
-                            {Math.round(rarityScore * 10)/10}
-                        </div>
+                            {rarityScore}
+                        </div> - Rank <div style={{display: "inline-block", color:"#fff200", fontWeight: "bolder"}}>
+                            {ranksJson.default.indexOf(rarityScore) + 1} 
+                        </div> /{ranksJson.default.length}
                     </>}
                 </Card.Text></>}
                 {(!skinClass || !owner || !skinKey) && <Loading/>}
