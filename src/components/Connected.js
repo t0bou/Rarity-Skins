@@ -16,7 +16,7 @@ export function Connected({account}){
     const skinsInterface = new ethers.utils.Interface(skinsABI)
     const skinBalance = useContractCall({abi : skinsInterface, address: addresses.summonerSkins, method: "balanceOf", args: [account]})
     const currentPrice = useContractCall({abi: skinsInterface, address: addresses.summonerSkins, method: "getPrice"})
-    const managerAddress = useContractCall({abi:skinsInterface, address: addresses.summonerSkins, method: "raritySkinManager"})
+    const managerAddress = [addresses.manager];
     const [skinId, setSkinId] = useState(0)
     const {loading, error, data} = useQuery(gql`{
         summoners(where: {owner:"${account.toLowerCase()}"}) {
