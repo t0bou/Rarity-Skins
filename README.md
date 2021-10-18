@@ -29,3 +29,7 @@ The raritySkinManager() method returned by Rare Skins's contract no longer sends
 Rarity Skin Manager : https://ftmscan.com/address/0xffdfc7286c2c8d0a94f99c5e00da1851564f8c1d
 
 Rare Skins : https://ftmscan.com/address/0x6fed400da17f2678c450aa1d35e909653b3b482a
+
+## Notes
+
+On chain explorers, you may wonder why skin assignation are shown as reverted but successful. What is this trickery ? No worries ! This is intended behavior. Assigning a NFT which doesn't implement isStrictOnSummonerClass() method will trigger a revert, catched in a try-catch. So this is actually normal, and the tx will succeed. 
