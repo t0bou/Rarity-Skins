@@ -1,5 +1,5 @@
-import {Button, Form, Stack, Row} from "react-bootstrap"
-import {useContractCall, useContractFunction, useEthers} from "@usedapp/core"
+import { Form, Stack, Row} from "react-bootstrap"
+import {useContractCall, useEthers} from "@usedapp/core"
 import { ethers } from "ethers"
 import * as addresses from "../addresses.json"
 import * as summonerSkinsJson from "../artifacts/contracts/SummonerSkins.sol/SummonerSkins.json"
@@ -8,18 +8,16 @@ import { useState } from "react"
 import Loading from "./Loading"
 import { useQuery, gql } from "@apollo/client"
 import Summoner from "./Summoner"
+import SkinInfos from "./SkinInfos"
+import Assigner from "./Assigner"
 
 export function Connected({account}){
     const skinsABI = JSON.stringify(summonerSkinsJson.abi)
     const skinsInterface = new ethers.utils.Interface(skinsABI)
     const skinBalance = useContractCall({abi : skinsInterface, address: addresses.summonerSkins, method: "balanceOf", args: [account]})
-    const skinSupply = useContractCall({abi: skinsInterface, address: addresses.summonerSkins, method: "totalSupply"})
     const currentPrice = useContractCall({abi: skinsInterface, address: addresses.summonerSkins, method: "getPrice"})
-    const managerAddress = useContractCall({abi:skinsInterface, address: addresses.summonerSkins, method: "raritySkinManager"})
-    const [amount, setAmount] = useState(10)
-    const skinContract = new ethers.Contract(addresses.summonerSkins,skinsInterface)
-    const mintRandomClasses = useContractFunction(skinContract,'mint')
-    const mintAndAssign = useContractFunction(skinContract, 'mintAndAssign')
+    const managerAddress = [addresses.manager];
+    const [skinId, setSkinId] = useState(0)
     const {loading, error, data} = useQuery(gql`{
         summoners(where: {owner:"${account.toLowerCase()}"}) {
             id
@@ -34,48 +32,24 @@ export function Connected({account}){
         <>
         <br/>
         Connected to {account.substring(0,5) + '...' + account.substring(account.length - 3)} <br/><br/>
-        {currentPrice !== undefined ? 
-            <>Current Price : 
-                <div style={{...boldStyle, color:"lightgreen"}}>
-                &nbsp;{Math.round(parseInt((currentPrice / 1e16).toString()))/100}&nbsp;
-                    $FTM&nbsp;&nbsp;
-                </div>-&nbsp;&nbsp;
-            </>
-        : 
-            <>Loading ...<br/></>}
-        {skinSupply !== undefined ?
-            skinSupply < 5000 ?
-                <><div style={{...boldStyle, color:"#ff4a4a"}}>{5000 - skinSupply}</div> skins left<br/><br/></>
-            :
-                <><div style={{...boldStyle, color:"#ff4a4a"}}>Sold Out !</div><br/><br/></>
-        : 
-            <>Loading ...<br/></>
-        }
-        {currentPrice && 
-            <Stack direction="horizontal">
-                <div>I want&nbsp;</div>
-                <div>
-                    <Form.Control size="sm" type="number" value={amount} min={0} onChange={e => setAmount(e.target.value)}/>
-                </div>
-                <div>&nbsp;new skins&nbsp;</div>
-                <div>
-                    <Button size="sm" onClick={()=>{mintRandomClasses.send(amount,{value: (currentPrice * amount).toString()})}}>Mint !</Button>
-                </div>
-            </Stack>
-        }
+        Rare Skins are <div style={{...boldStyle, color:"#ff4a4a"}}>Sold Out</div> !<br/>
+        Find them on <a href="https://paintswap.finance/marketplace/collections/0x6fed400da17f2678c450aa1d35e909653b3b482a">PaintSwap</a> 
+        &nbsp;or <a href="https://artion.io/explore">Artion</a><br/>
         <br/>
+        Get infos on a Rare Skin <div style={{display: "inline-block"}}>
+            <Form.Control size="sm" type="number" placeholder="skin id" value={skinId !== 0 ? skinId : undefined} onChange={e => setSkinId(e.target.value)}/>
+        </div>
+        {skinId > 0 && skinId <= 5000 && managerAddress && <><br/><br/><SkinInfos id={skinId} managerAddress={managerAddress}/></>}
+        <br/><br/>
+        {managerAddress && <Assigner managerAddress={managerAddress} />}
+        <br/><br/>
         {skins(skinBalance, account, managerAddress)}
         {skinBalance && skinBalance === 0 && <>You have no skin :( Try to mint some !<br/></>}
 
         {!loading && !error && summonerList(data).length > 0 && <>
             <br/>
             <Stack direction="horizontal">
-                <div>Your summoners :</div>
-                <div className="ms-auto">
-                    <Button size="sm" onClick={()=>{
-                        mintAndAssign.send(summonerIds(data),{value: (currentPrice * summonerList(data).length).toString()})
-                    }}>Give a new skin to each summoner !</Button>
-                </div>
+                <div>Your Summoners :</div>
             </Stack>
             <br/>
         </>}
@@ -93,7 +67,7 @@ function skins(skinBalance, account, managerAddress){
         for(let i = 0; i < skinBalance; i++)
             arr.push(i)
         return <>
-            Your skins : <br/><br/>
+            Your Rare Skins : <br/><br/>
             <Row>{arr.map(index => <Skin key={index} index={index} account={account} managerAddress={managerAddress[0]}/>)}</Row>
         </>
     } else {

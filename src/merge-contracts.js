@@ -5,8 +5,13 @@ async function main(){
     let skins = await merge("./contracts/alts/SummonerSkins.sol")
     let uris = await merge("./contracts/alts/SkinURIs.sol")
     let manager = await merge("./contracts/alts/RaritySkinManager.sol")
+    let fix = await merge("./contracts/alts/RaritySkinManagerFix.sol")
 
-    let merges = [{name: 'skins', code : skins},{name: 'uris', code : uris},{name: 'manager', code : manager}]
+    let merges = [
+      {name: 'skins', code : skins},
+      {name: 'uris', code : uris},
+      {name: 'manager', code : manager},
+      {name: 'fix', code: fix}]
     let licenseLine = "//SPDX-License-Identifier: MIT\n"
 
     merges.forEach(_merged => {

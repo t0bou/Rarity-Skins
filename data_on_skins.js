@@ -24,6 +24,7 @@ async function main(){
     }
 
     let skins = fs.readFileSync("./allSkins.json",{encoding:'utf8'})
+
     skins = JSON.parse(skins)
     skins.forEach(element => {
         attributes[Object.keys(element.attributes).length] += 1
@@ -44,7 +45,7 @@ async function main(){
             attributes[type][el] = ((Math.round((attributes[type][el] / 5000) * 1000))/10).toString() + '%'
         }
     })
-    fs.writeFileSync("./src/rare_skins_stats.json",JSON.stringify(attributes),'utf8')
+    log(attributes)
 }
 
 main()
