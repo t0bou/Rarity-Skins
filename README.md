@@ -1,6 +1,6 @@
 # Rarity Skins
 
-Provides an open registry for players of Rarity Manifested to link a NFT as skin for their summoner, and twos collections of skins.  
+Provides an open registry for players of Rarity Manifested to link a NFT as skin for their summoner, and two collections of skins.  
 
 ## Usage 
 
