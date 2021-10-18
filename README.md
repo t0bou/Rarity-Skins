@@ -13,10 +13,10 @@ Provides an open registry for players of Rarity Manifested to link a NFT as skin
 
 with `tokenURI` returned by `tokenURI(uint256 _tokenId)` of the skin NFT contract :
 
-    skinJson = decodeURI(skinBase64)
-    skinJson = skinJson.split("data:application/json;base64,").pop()
-    skinJson = JSON.parse(Buffer.from(skinJson,"base64").toString())
-    imgUri = skinJson.image
+    fetch(tokenURI)
+        .then(res => res.json().then(json => {
+            imgUri = json.image
+        }))
 
     <img src={imgUri}/>
 
