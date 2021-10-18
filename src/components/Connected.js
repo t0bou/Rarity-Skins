@@ -38,8 +38,8 @@ export function Connected({account}){
         <br/>
         Get infos on a Rare Skin <div style={{display: "inline-block"}}>
             <Form.Control size="sm" type="number" placeholder="skin id" value={skinId !== 0 ? skinId : undefined} onChange={e => setSkinId(e.target.value)}/>
-        </div><br/><br/>
-        {skinId > 0 && skinId <= 5000 && managerAddress && <SkinInfos id={skinId} managerAddress={managerAddress}/>}
+        </div>
+        {skinId > 0 && skinId <= 5000 && managerAddress && <><br/><br/><SkinInfos id={skinId} managerAddress={managerAddress}/></>}
         <br/><br/>
         {managerAddress && <Assigner managerAddress={managerAddress} />}
         <br/><br/>

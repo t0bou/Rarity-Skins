@@ -15,7 +15,7 @@ with `skinJson` returned by `tokenURI(uint256 _tokenId)` of the skin NFT contrac
 
     skinJson = decodeURI(skinBase64)
     skinJson = skinJson.split("data:application/json;base64,").pop()
-    skinJson = JSON.parse(atob(skinJson))
+    skinJson = JSON.parse(Buffer.from(skinJson,"base64").toString())
     imgUri = skinJson.image
 
     <img src={imgUri}/>
