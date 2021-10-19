@@ -2,15 +2,15 @@ const Web3 = require("web3")
 const skinsJSON = require("../artifacts/contracts/alts/CommonSummonerSkins.sol/CommonSummonerSkins.json")
 const uriJSON = require("../artifacts/contracts/alts/CommonSkinURIs.sol/CommonSkinURIs.json")
 const managerJSON = require("../artifacts/contracts/alts/RaritySkinManagerFix.sol/RaritySkinManagerFix.json")
-const artData = require("../contracts/alts/data-common.json")
+const artData = require("../contracts/alts/constructed.json")
 const HDWalletProvider = require("@truffle/hdwallet-provider")
 const secrets = require("../secrets.json")
 
 async function main(){
     let provider = new HDWalletProvider({
         privateKeys: [secrets.privateKeys.fantom],
-        // providerOrUrl: secrets.RPCs.fantom
-        providerOrUrl: "http://localhost:8545"
+        providerOrUrl: secrets.RPCs.fantom
+        //providerOrUrl: "http://localhost:8545"
     })
 
     let web3 = await new Web3(provider)
@@ -38,6 +38,7 @@ async function main(){
 }
 
 main()
+.then(()=>{process.exit(0)})
 .catch(err=>{
     console.log(err)
 })
@@ -46,7 +47,7 @@ main()
 async function sendContrFunc(stuffToDo, from, value){
     let gas = await stuffToDo.estimateGas({from: from, value: value})
     console.log(gas)
-    return await stuffToDo.send({from: from, gas: gas + 21000, gasPrice: '200000000000', value: value})
+    return await stuffToDo.send({from: from, gas: gas + 21000, gasPrice: '400000000000', value: value})
 }
 
 async function deployContract(json, from, web3, args){

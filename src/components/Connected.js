@@ -75,7 +75,6 @@ export function Connected({account}){
         {managerAddress && <Assigner managerAddress={managerAddress} />}
         <br/><br/>
         {skins(skinBalance, account, managerAddress, "rare")}
-        {skinBalance && skinBalance === 0 && <>You have no Rare Skin<br/></>}
 
         {!loading && !error && summonerList(data).length > 0 && <>
             <br/>
@@ -94,7 +93,6 @@ export function Connected({account}){
         
         <br/>
         {skins(commonBalance, account, managerAddress, "common")}
-        {commonBalance && commonBalance === 0 && <>You have no Common Skin<br/></>}
         </>
     )
 }
@@ -102,7 +100,7 @@ export function Connected({account}){
 function skins(skinBalance, account, managerAddress, type){
     let arr =[]
     if(skinBalance && account && managerAddress){
-        if (skinBalance == 0) return <>You have no skin :( <br/></>
+        if (skinBalance == 0) return <>You have no {type === "common" ? "Common" : "Rare"} Skin :( <br/></>
         for(let i = 0; i < skinBalance; i++)
             arr.push(i)
         return <>
