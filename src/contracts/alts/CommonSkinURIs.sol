@@ -33,7 +33,7 @@ contract CommonSkinURIs is Ownable {
 	string constant altPartForBardClericAndDruid = '<path d="M14 20h-1-1-1-1-1v1 1 1h1 1v-1h1 1 1 1v-1-1h-1z"/>';
 	string constant shadowPartForSorcererAndWizard = '<path d="M14 19v1 1 1h1v-1-1-1-1-1h-1v1 1zm-4-2h1v1h-1z"/><path d="M9 18h1v1H9zm0-3h1v1H9zm5-3h1v1h-1zm-7-1h1v1H7z"/><path d="M8 10h1v1H8zm3 3v-1h-1-1v1 1h1v-1h1z"/><path d="M13 14v1 1 1h1v-1-1-1-1h-1v1zm-2 0h-1v1h1v1 1h1v-1-1-1-1h-1v1zm4 0h1v1h-1zm0-3h1v1h-1zm-8 7h1v1H7z"/><path d="M7 16v-1-1-1-1H6v1 1 1 1 1 1h1v-1-1zm1 4v1h1v-1-1H8v1z"/><path d="M7 22v1 1h1 1v-1H8v-1-1H7v1z"/>';
 
-    constructor(uint256 _maxSupply) {
+    constructor() {
 		skins = CommonSummonerSkins(msg.sender);
 
 		traitName[0] = ["Bracelet","Earring","Gloves","Necklace","Ring"];
