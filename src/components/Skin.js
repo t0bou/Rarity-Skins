@@ -62,7 +62,7 @@ function _Skin({id,managerAddress, type}){
                             {summonerId === 0 ? undefined : summonerId} 
                                 onChange={e => setSummonerId(e.target.value)}/>
                             <Button size="sm" onClick={()=>{
-                                assign.send(addresses.summonerSkins,id.toString(),summonerId)
+                                assign.send(type === "common" ? addresses.commonSkins : addresses.summonerSkins,id.toString(),summonerId)
                             }}>Assign</Button>
                         </Stack>
                     </Card.Body>
