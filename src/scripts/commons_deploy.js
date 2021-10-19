@@ -6,16 +6,14 @@ const artData = require("../contracts/alts/data-common.json")
 const HDWalletProvider = require("@truffle/hdwallet-provider")
 const secrets = require("../secrets.json")
 
-// todo : authorize commons in manager and deploy art data
-
 async function main(){
-    // let provider = new HDWalletProvider({
-    //     privateKeys: [secrets.privateKeys.fantom],
-    //     providerOrUrl: secrets.RPCs.fantom
-    // })
+    let provider = new HDWalletProvider({
+        privateKeys: [secrets.privateKeys.fantom],
+        // providerOrUrl: secrets.RPCs.fantom
+        providerOrUrl: "http://localhost:8545"
+    })
 
-    // let web3 = await new Web3(provider)
-    let web3 = await new Web3("http://localhost:8545")
+    let web3 = await new Web3(provider)
     let accounts = await web3.eth.getAccounts()
 
     const skins = await deployContract(skinsJSON, accounts[0], web3)

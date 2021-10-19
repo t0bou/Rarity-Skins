@@ -7,28 +7,30 @@ import Loading from "./Loading"
 import { Card, Button, Stack, Form } from "react-bootstrap"
 import { useState } from "react"
 
-export default function Skin({account, index, managerAddress}){
+export default function Skin({account, index, managerAddress, type}){
+    const skinAddress = type === "common" ? addresses.commonSkins : addresses.summonerSkins
     const skinsABI = JSON.stringify(summonerSkinsJson.abi)
     const skinsInterface = new ethers.utils.Interface(skinsABI)
-    const skinId = useContractCall({abi : skinsInterface, address: addresses.summonerSkins, method: "tokenOfOwnerByIndex", args: [account,index.toString()]})
+    const skinId = useContractCall({abi : skinsInterface, address: skinAddress, method: "tokenOfOwnerByIndex", args: [account,index.toString()]})
 
     return(
         <>
             {!skinId && <Loading/>}
-            {skinId && <_Skin id={skinId} managerAddress={managerAddress}/>}
+            {skinId && <_Skin id={skinId} managerAddress={managerAddress} type={type}/>}
         </>
     )
 }
 
-function _Skin({id,managerAddress}){
+function _Skin({id,managerAddress, type}){
+    const skinAddress = type === "common" ? addresses.commonSkins : addresses.summonerSkins
     const managerABI = JSON.stringify(managerJson.abi)
     const managerInterface = new ethers.utils.Interface(managerABI)
     const skinsABI = JSON.stringify(summonerSkinsJson.abi)
     const skinsInterface = new ethers.utils.Interface(skinsABI)
-    const skinBase64 = useContractCall({abi: skinsInterface, address: addresses.summonerSkins, method: "tokenURI", args: [id.toString()]})
-    const skinClass = useContractCall({abi: skinsInterface, address: addresses.summonerSkins, method:"class", args:[id.toString()]})
+    const skinBase64 = useContractCall({abi: skinsInterface, address: skinAddress, method: "tokenURI", args: [id.toString()]})
+    const skinClass = useContractCall({abi: skinsInterface, address: skinAddress, method:"class", args:[id.toString()]})
     const managerContract = new ethers.Contract(managerAddress, managerInterface)
-    const skinKey = useContractCall({abi: managerInterface, address: managerAddress, method: "skinKey", args: [[addresses.summonerSkins, id.toString()]]})
+    const skinKey = useContractCall({abi: managerInterface, address: managerAddress, method: "skinKey", args: [[skinAddress, id.toString()]]})
     const assign = useContractFunction(managerContract,'assignSkinToSummoner')
     const [summonerId, setSummonerId] = useState(0)
     const classes = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Wizard"]
